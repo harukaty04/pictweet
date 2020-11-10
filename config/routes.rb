@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :tweets, only: [:index, :new]
+  devise_for :users
+  root to: 'tweets#index'
+  namespace :tweets do
+    resources :searches, only: :index
+  end
+  resources :tweets do
+    resources :comments, only: :create
+    collection do  # この行は削除する
+      get 'search'  # この行は削除する
+    end  # この行は削除する
+  end
+  resources :users, only: :show
 end
